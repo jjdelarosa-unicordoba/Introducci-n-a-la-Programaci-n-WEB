@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guía paso a paso: EduConnect</title>
+<style>
+:root{--bg:#f0f2f5;--panel:#fff;--ink:#1c1e21;--sub:#65676b;--accent:#1e4fa3;--soft:#e8f0fe;--line:#d9dde3;--code:#f6f8fa;--ok:#1a7f4b;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181d;--panel:#1f242b;--ink:#e8eaed;--sub:#a0a6ad;--accent:#7aa7f0;--soft:#27324a;--line:#343b45;--code:#161a20;--ok:#58c88a}}
+:root[data-theme="dark"]{--bg:#15181d;--panel:#1f242b;--ink:#e8eaed;--sub:#a0a6ad;--accent:#7aa7f0;--soft:#27324a;--line:#343b45;--code:#161a20;--ok:#58c88a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Segoe UI',Arial,sans-serif;line-height:1.55}
+.wrap{max-width:1100px;margin:0 auto;padding:1rem}
+h1{font-size:1.5rem;margin:.2rem 0;color:var(--accent)}
+.sub{color:var(--sub);margin:0 0 1rem}
+.tabs{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.3rem}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:.45rem .8rem;border-radius:20px;cursor:pointer;font:inherit;font-size:.85rem}
+.tab.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab.done::after{content:" ✓";color:var(--ok)}
+.tab.on.done::after{color:#fff}
+.bar{height:6px;background:var(--line);border-radius:3px;margin:.6rem 0 1rem;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1rem}
+.card h2{margin:0 0 .3rem;font-size:1.2rem}
+.badge{display:inline-block;background:var(--soft);color:var(--accent);border-radius:12px;padding:.1rem .6rem;font-size:.78rem;font-weight:bold;margin-bottom:.4rem}
+.goal{color:var(--sub);margin:.2rem 0 .6rem}
+ol.tasks{padding-left:1.2rem;margin:.4rem 0}
+ol.tasks li{margin:.3rem 0}
+code{background:var(--code);padding:.05rem .3rem;border-radius:4px;font-family:Consolas,monospace;font-size:.85em}
+.blk{border:1px solid var(--line);border-radius:8px;margin:.7rem 0;overflow:hidden}
+.blk .h{display:flex;justify-content:space-between;align-items:center;background:var(--soft);padding:.3rem .6rem;font-size:.8rem;font-weight:bold;color:var(--accent)}
+.blk .h button{font:inherit;font-size:.75rem;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:6px;padding:.1rem .5rem;cursor:pointer}
+.blk pre{margin:0;padding:.7rem;background:var(--code);overflow-x:auto;font-family:Consolas,monospace;font-size:.78rem;line-height:1.5;max-height:340px}
+.chk label{display:flex;gap:.5rem;align-items:flex-start;margin:.3rem 0;cursor:pointer}
+.tip{background:var(--soft);border-left:4px solid var(--accent);padding:.6rem .8rem;border-radius:6px;margin-top:.7rem;font-size:.9rem}
+table{width:100%;border-collapse:collapse;font-size:.85rem;margin:.5rem 0}
+th,td{border:1px solid var(--line);padding:.35rem .5rem;text-align:left}
+th{background:var(--soft)}
+.pv .head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem}
+.pv .head button{font:inherit;font-size:.82rem;border:1px solid var(--accent);background:transparent;color:var(--accent);padding:.3rem .7rem;border-radius:8px;cursor:pointer}
+.pv .head button.on{background:var(--accent);color:#fff}
+.frame{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:8px}
+.frame iframe{display:block;border:0;height:470px;margin:0 auto;background:#fff}
+.nav{display:flex;justify-content:space-between;gap:.6rem}
+.nav button{font:inherit;padding:.55rem 1.1rem;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.nav button.ghost{background:transparent;color:var(--accent)}
+.nav button:disabled{opacity:.4;cursor:not-allowed}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎓 EduConnect: construye la red social educativa</h1>
+  <p class="sub">Guía paso a paso · HTML5 + CSS3 puro (sin Bootstrap ni Tailwind) · 2 horas</p>
+  <div class="tabs" id="tabs"></div>
+  <div class="bar"><i id="prog"></i></div>
+  <div id="content"></div>
+  <div class="card pv">
+    <div class="head"><strong>🌐 Tu página hasta este paso</strong>
+      <span><button data-w="375">📱 Móvil</button> <button data-w="800">📲 Tablet</button> <button data-w="1100" class="on">🖥️ Escritorio</button></span>
+    </div>
+    <div class="frame"><iframe id="pv" title="Vista previa" style="width:1100px"></iframe></div>
+    <p class="sub" style="margin:.5rem 0 0;font-size:.82rem">Cambia el ancho para ver cómo reaccionan tus <code>@media</code> (solo se activan en los pasos 4 y 5).</p>
+  </div>
+  <div class="nav"><button class="ghost" id="prev">← Anterior</button><button id="next">Siguiente →</button></div>
+</div>
+
+<script>
+const H_HEAD=`<header class="header">
+  <a href="#" class="logo">🎓 EduConnect</a>
+  <form class="search" role="search">
+    <input type="search" placeholder="Buscar en EduConnect" aria-label="Buscar">
+  </form>
+  <div class="profile">
+    <button type="button" aria-label="Notificaciones">🔔</button>
+    <span class="avatar">AM</span>
+  </div>
+</header>`;
+const H_NAV=`<nav class="sidebar" aria-label="Menú principal">
+  <ul>
+    <li><a href="#">🏠 Inicio</a></li>
+    <li><a href="#">📚 Cursos</a></li>
+    <li><a href="#">👥 Grupos</a></li>
+    <li><a href="#">📅 Eventos</a></li>
+    <li><a href="#">⚙️ Configuración</a></li>
+  </ul>
+</nav>`;
+const H_MAIN=`<main class="feed">
+  <section class="card composer">
+    <form>
+      <input type="text" placeholder="¿Qué quieres compartir hoy?" aria-label="Nueva publicación">
+      <div class="composer__actions">
+        <button type="button">📷 Foto</button>
+        <button type="button">📎 Archivo</button>
+        <button type="submit" class="btn-primary">Publicar</button>
+      </div>
+    </form>
+  </section>
+
+  <article class="card post">
+    <header class="post__header">
+      <span class="avatar">LP</span>
+      <div>
+        <strong>Prof. Laura Pérez</strong>
+        <small>Matemáticas · hace 2 h</small>
+      </div>
+    </header>
+    <p>Recuerden que el taller de funciones se entrega el viernes. ¡Aquí dejo la guía de apoyo!</p>
+    <img src="imagen-clase.jpg" alt="Guía de funciones matemáticas">
+    <footer class="post__actions">
+      <button type="button">👍 Me gusta</button>
+      <button type="button">💬 Comentar</button>
+      <button type="button">↗️ Compartir</button>
+    </footer>
+  </article>
+
+  <article class="card post">
+    <header class="post__header">
+      <span class="avatar">CR</span>
+      <div>
+        <strong>Carlos Ruiz</strong>
+        <small>Grado 10° · hace 5 h</small>
+      </div>
+    </header>
+    <p>¿Quién se une al grupo de estudio de física este jueves en la biblioteca?</p>
+    <img src="imagen-grupo.jpg" alt="Estudiantes en la biblioteca">
+    <footer class="post__actions">
+      <button type="button">👍 Me gusta</button>
+      <button type="button">💬 Comentar</button>
+      <button type="button">↗️ Compartir</button>
+    </footer>
+  </article>
+</main>`;
+const H_ASIDE=`<aside class="widgets">
+  <section class="card">
+    <h2>Próximos eventos</h2>
+    <ul>
+      <li><strong>Vie 18</strong> · Entrega taller de funciones</li>
+      <li><strong>Lun 21</strong> · Feria de ciencias</li>
+    </ul>
+  </section>
+  <section class="card">
+    <h2>Sugerencias</h2>
+    <ul>
+      <li>👥 Grupo de Robótica</li>
+      <li>👤 Sofía Gómez</li>
+    </ul>
+  </section>
+</aside>`;
+const SKELETON=`<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduConnect</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Bloque 1: <header class="header"> ... </header> -->
+
+  <div class="layout">
+    <!-- Bloque 2: <nav class="sidebar"> ... </nav> -->
+    <!-- Bloque 3: <main class="feed"> ... </main> -->
+    <!-- Bloque 4: <aside class="widgets"> ... </aside> -->
+  </div>
+
+</body>
+</html>`;
+
+const CSS2=`:root {
+  --azul: #1e4fa3;
+  --azul-claro: #e8f0fe;
+  --fondo: #f0f2f5;
+  --texto: #1c1e21;
+  --gris: #65676b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--fondo); color: var(--texto); }
+ul { list-style: none; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* GRID: distribución macro en escritorio */
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr 300px;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+  align-items: start;
+}
+.layout > * { min-width: 0; }
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.12);
+  margin-bottom: 1rem;
+}
+.sidebar a { display: block; padding: .6rem .8rem; border-radius: 8px; }
+.sidebar a:hover { background: var(--azul-claro); }
+.widgets li { padding: .4rem 0; }`;
+const CSS3=`/* FLEXBOX: micro-componentes */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: var(--azul);
+  color: #fff;
+  padding: .7rem 1rem;
+}
+.logo { font-weight: bold; font-size: 1.2rem; white-space: nowrap; }
+.search { flex: 1; max-width: 420px; }
+.search input { width: 100%; padding: .5rem 1rem; border: none; border-radius: 20px; }
+.profile { display: flex; align-items: center; gap: .7rem; }
+
+button { font: inherit; cursor: pointer; border: none; background: none; padding: .5rem; border-radius: 8px; color: var(--gris); }
+button:hover { background: var(--azul-claro); }
+.btn-primary { background: var(--azul); color: #fff; padding: .5rem 1.2rem; }
+.btn-primary:hover { background: #17408a; }
+
+.avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--azul); color: #fff; font-size: .85rem; font-weight: bold;
+  display: flex; align-items: center; justify-content: center;
+}
+.header .avatar { background: #fff; color: var(--azul); }
+
+.composer form { display: flex; flex-direction: column; gap: .8rem; }
+.composer input { padding: .7rem 1rem; border: 1px solid #ddd; border-radius: 20px; }
+.composer__actions { display: flex; gap: .5rem; }
+.composer__actions .btn-primary { margin-left: auto; }
+
+.post__header { display: flex; align-items: center; gap: .7rem; margin-bottom: .7rem; }
+.post__header small { display: block; color: var(--gris); }
+.post p { margin-bottom: .7rem; }
+.post img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
+.post__actions { display: flex; margin-top: .7rem; padding-top: .4rem; border-top: 1px solid #eee; }
+.post__actions button { flex: 1; }`;
+const CSS4=`/* RESPONSIVE: Tablet (768px – 1023px) → 2 columnas */
+@media (max-width: 1023px) {
+  .layout { grid-template-columns: 200px 1fr; }
+  .widgets { display: none; }
+}
+
+/* RESPONSIVE: Móvil (< 767px) → 1 columna + Bottom Nav */
+@media (max-width: 767px) {
+  body { padding-bottom: 70px; }
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;
+    background: #fff; box-shadow: 0 -2px 6px rgba(0,0,0,.15);
+  }
+  .sidebar ul { display: flex; justify-content: space-around; }
+  .sidebar a { font-size: .7rem; text-align: center; padding: .6rem .3rem; }
+}`;
+
+const STEPS=[
+{tab:"0 · Antes de empezar",time:"Preparación",title:"Conoce el caso y prepara tu espacio",
+ goal:"La institución Colegio / Universidad San José necesita el prototipo de la pantalla principal (Feed) de EduConnect, su red social interna.",
+ tasks:[
+  "Elige tu herramienta: <b>VSCode</b> (computador), <b>CodePen</b> (navegador), <b>Acode / Spck Editor</b> (Android) o <b>Koder Code Editor</b> (iPhone).",
+  "Crea una carpeta <code>educonnect/</code> con dos archivos: <code>index.html</code> y <code>style.css</code>.",
+  "Entiende los <b>4 bloques</b> que debes construir: <b>Header</b> (logo, búsqueda, perfil) · <b>Sidebar izquierdo</b> (menú) · <b>Feed central</b> (crear post + 2 publicaciones) · <b>Sidebar derecho</b> (eventos y sugerencias).",
+  "Recuerda la regla de oro del taller: <b>Grid para lo macro, Flexbox para lo micro</b>."],
+ table:[["Tiempo","Tarea"],["00:00–00:20","1. Estructura HTML semántica"],["00:20–00:50","2. Estilos globales y Grid"],["00:50–01:25","3. Componentes con Flexbox"],["01:25–01:50","4. Responsive (@media)"],["01:50–02:00","5. Revisión y pulido"]],
+ check:["Tengo mi editor listo","Creé index.html y style.css","Entiendo los 4 bloques de la página"],
+ tip:"Si usas CodePen, escribe el HTML en el panel HTML (sin html/head/body) y el CSS en el panel CSS."},
+{tab:"1 · HTML",time:"⏱ 20 min",title:"Paso 1 — Estructura HTML semántica",
+ goal:"Construir el esqueleto con etiquetas semánticas y datos ficticios. Todavía NO hay estilos: la página se verá simple, y está bien.",
+ tasks:[
+  "Pega el <b>esqueleto</b> en <code>index.html</code>. Fíjate en el <code>&lt;meta viewport&gt;</code>: es obligatorio para el responsive.",
+  "Reemplaza cada comentario por su bloque, <b>en orden</b>: Bloque 1 dentro de <code>&lt;body&gt;</code>; Bloques 2, 3 y 4 dentro de <code>&lt;div class=\"layout\"&gt;</code>.",
+  "Observa qué etiqueta usa cada bloque: <code>header</code>, <code>nav</code>, <code>main</code>, <code>aside</code>, <code>section</code>, <code>article</code> y <code>footer</code>. Evita llenar todo de <code>&lt;div&gt;</code>.",
+  "Cambia los textos por tus propios datos ficticios (nombres, cursos, eventos)."],
+ blocks:[{l:"index.html · Esqueleto",c:SKELETON},{l:"Bloque 1 · Header",c:H_HEAD},{l:"Bloque 2 · Sidebar izquierdo (nav)",c:H_NAV},{l:"Bloque 3 · Feed central (main)",c:H_MAIN},{l:"Bloque 4 · Sidebar derecho (aside)",c:H_ASIDE}],
+ check:["Uso header, nav, main, aside, article y section","El formulario de crear post tiene input y button","Hay 2 publicaciones con avatar, texto, imagen y 3 botones","Mis imágenes tienen alt descriptivo"],
+ tip:"En la vista previa, las imágenes son ilustrativas. En tu proyecto real usa archivos propios o URLs de imágenes, siempre con <code>alt</code>."},
+{tab:"2 · Grid",time:"⏱ 30 min",title:"Paso 2 — Estilos globales y Grid Layout",
+ goal:"Definir colores institucionales con variables CSS y distribuir las 3 columnas del escritorio con CSS Grid.",
+ tasks:[
+  "En <code>style.css</code> crea las <b>variables</b> en <code>:root</code> (colores) y el reinicio básico con <code>box-sizing: border-box</code>.",
+  "Convierte <code>.layout</code> en una cuadrícula: <code>grid-template-columns: 240px 1fr 300px</code> (sidebar + feed + widgets).",
+  "Dale estilo a <code>.card</code> (fondo blanco, bordes redondeados, sombra suave) para que cada bloque se vea como tarjeta.",
+  "Por qué <code>.layout &gt; * { min-width: 0 }</code>: evita que un hijo muy ancho empuje la cuadrícula y cause scroll horizontal."],
+ blocks:[{l:"style.css · Variables, reinicio y Grid",c:CSS2}],css:CSS2,
+ check:["Declaré variables CSS en :root","Mi layout muestra 3 columnas en escritorio","Uso CSS Grid solo para la distribución macro","Las tarjetas tienen padding, margin y sombra"],
+ tip:"Cambia <code>240px 1fr 300px</code> por otros valores y mira cómo se redistribuye. ¡Experimentar es parte del aprendizaje!"},
+{tab:"3 · Flexbox",time:"⏱ 35 min",title:"Paso 3 — Componentes con Flexbox",
+ goal:"Maquetar los micro-componentes: header, caja de crear post y tarjetas de publicaciones.",
+ tasks:[
+  "<b>Header:</b> <code>display:flex</code> + <code>justify-content: space-between</code> + <code>align-items:center</code> → logo a la izquierda, búsqueda al centro (<code>flex:1</code>), perfil a la derecha.",
+  "<b>Avatar:</b> un círculo con las iniciales centradas usando flex (<code>align-items</code> + <code>justify-content: center</code>).",
+  "<b>Crear post:</b> los botones en fila (<code>.composer__actions</code>), con <code>margin-left:auto</code> en «Publicar» para empujarlo a la derecha.",
+  "<b>Tarjeta de post:</b> avatar alineado con el nombre (flex) y <code>.post__actions</code> con <code>flex:1</code> en cada botón para repartirlos equitativamente."],
+ blocks:[{l:"style.css · Flexbox (añade al final)",c:CSS3}],css:CSS3,
+ check:["Logo, búsqueda y perfil quedan alineados en el header","Los 3 botones de cada post se reparten por igual","El botón Publicar queda a la derecha","Elegí Flexbox para micro-componentes y Grid para el macro"],
+ tip:"Si algo no se alinea, pregúntate: ¿cuál es mi <b>eje principal</b>? <code>justify-content</code> lo controla; <code>align-items</code> controla el transversal."},
+{tab:"4 · Responsive",time:"⏱ 25 min",title:"Paso 4 — Responsive Design con @media",
+ goal:"Adaptar la interfaz a tres tamaños: Escritorio (3 columnas), Tablet (2 columnas) y Móvil (1 columna con menú inferior).",
+ tasks:[
+  "<b>Tablet (hasta 1023px):</b> cambia el grid a <code>200px 1fr</code> y oculta <code>.widgets</code> con <code>display:none</code>.",
+  "<b>Móvil (hasta 767px):</b> una sola columna (<code>1fr</code>) y convierte <code>.sidebar</code> en <b>Bottom Nav</b>: <code>position: fixed; bottom: 0</code> y la lista en fila con flex.",
+  "Añade <code>padding-bottom</code> al <code>body</code> en móvil para que la barra fija no tape el último contenido.",
+  "Prueba con los botones 📱 📲 🖥️ de la vista previa (o con <b>F12</b> → modo dispositivo)."],
+ blocks:[{l:"style.css · Media queries (añade al final)",c:CSS4}],css:CSS4,
+ check:["Escritorio: 3 columnas","Tablet: 2 columnas y sin sidebar derecho","Móvil: 1 columna con menú inferior","No aparece scroll horizontal en móvil"],
+ tip:"Las media queries van <b>al final</b> del CSS: así sobrescriben los estilos base de escritorio."},
+{tab:"5 · Revisión",time:"⏱ 10 min",title:"Paso 5 — Revisión y pulido",
+ goal:"Verifica tu trabajo con las herramientas de desarrollador y contrástalo con los criterios de evaluación.",
+ tasks:[
+  "Abre <b>F12 → modo dispositivo</b> y prueba 3 anchos (375px, 800px, 1200px). Revisa que no haya desbordamiento horizontal.",
+  "Ajusta márgenes y paddings donde veas elementos apretados.",
+  "Revisa que tu código esté <b>indentado</b>, con clases descriptivas (opcional: nombres estilo BEM como <code>post__header</code>).",
+  "Reto extra: cambia la paleta a los colores de tu institución en las variables de <code>:root</code>."],
+ check:["HTML5 semántico, sin abuso de <div>","Grid para lo macro y Flexbox para lo micro","Sin scroll horizontal en móvil","Código ordenado, con clases descriptivas","Paleta coherente con un entorno educativo y buenos espaciados"],
+ tip:"¡Listo! Si terminaste antes, añade <code>:hover</code> y <code>transition</code> a los botones, o crea una tercera publicación."}
+];
+
+let cur=0;const done={};const checks={};
+const IMG='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e4fa3"/><stop offset="1" stop-color="#6fa8dc"/></linearGradient></defs><rect width="400" height="200" fill="url(#g)"/><text x="200" y="120" font-size="64" text-anchor="middle">📚</text></svg>');
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function previewDoc(n){
+  if(n===0)return '<body style="font-family:sans-serif;color:#777;display:flex;align-items:center;justify-content:center;height:100vh;margin:0">Aquí aparecerá tu página ✨</body>';
+  const css=STEPS.slice(0,n+1).map(s=>s.css||'').join('\n');
+  const body=H_HEAD+'<div class="layout">'+H_NAV+H_MAIN+H_ASIDE+'</div>';
+  return '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style></head><body>'+body.replace(/src="imagen-[a-z]+\.jpg"/g,'src="'+IMG+'"')+'</body></html>';
+}
+function render(){
+  const s=STEPS[cur];
+  let h='<div class="card"><span class="badge">'+s.time+'</span><h2>'+s.title+'</h2><p class="goal">'+s.goal+'</p><ol class="tasks">'+s.tasks.map(t=>'<li>'+t+'</li>').join('')+'</ol>';
+  if(s.table)h+='<table>'+s.table.map((r,i)=>'<tr>'+r.map(c=>i?'<td>'+c+'</td>':'<th>'+c+'</th>').join('')+'</tr>').join('')+'</table>';
+  (s.blocks||[]).forEach((b,i)=>{h+='<div class="blk"><div class="h"><span>'+b.l+'</span><button data-copy="'+i+'">Copiar</button></div><pre>'+esc(b.c)+'</pre></div>';});
+  h+='<div class="chk"><strong>✅ Verifica antes de avanzar</strong>'+s.check.map((c,i)=>'<label><input type="checkbox" data-c="'+i+'"'+(checks[cur+'-'+i]?' checked':'')+'> <span>'+c+'</span></label>').join('')+'</div>';
+  h+='<div class="tip">💡 '+s.tip+'</div></div>';
+  document.getElementById('content').innerHTML=h;
+  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copy(s.blocks[b.dataset.copy].c,b));
+  document.querySelectorAll('[data-c]').forEach(x=>x.onchange=()=>{checks[cur+'-'+x.dataset.c]=x.checked;done[cur]=s.check.every((_,i)=>checks[cur+'-'+i]);tabs();});
+  document.getElementById('pv').srcdoc=previewDoc(cur);
+  document.getElementById('prev').disabled=cur===0;
+  document.getElementById('next').disabled=cur===STEPS.length-1;
+  tabs();
+}
+function tabs(){
+  const t=document.getElementById('tabs');t.innerHTML='';
+  STEPS.forEach((s,i)=>{const b=document.createElement('button');b.className='tab'+(i===cur?' on':'')+(done[i]?' done':'');b.textContent=s.tab;b.onclick=()=>{cur=i;render();window.scrollTo(0,0)};t.appendChild(b);});
+  document.getElementById('prog').style.width=(Object.values(done).filter(Boolean).length/STEPS.length*100)+'%';
+}
+function copy(text,btn){
+  const ok=()=>{btn.textContent='¡Copiado!';setTimeout(()=>btn.textContent='Copiar',1200)};
+  try{navigator.clipboard.writeText(text).then(ok,fb)}catch(e){fb()}
+  function fb(){const a=document.createElement('textarea');a.value=text;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()}
+}
+document.querySelectorAll('.pv [data-w]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.pv [data-w]').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  document.getElementById('pv').style.width=b.dataset.w+'px';
+});
+document.getElementById('prev').onclick=()=>{if(cur>0){cur--;render();window.scrollTo(0,0)}};
+document.getElementById('next').onclick=()=>{if(cur<STEPS.length-1){cur++;render();window.scrollTo(0,0)}};
+render();
+</script>
+</body>
+</html>
