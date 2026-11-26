@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Periódico Estudiantil</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ENCABEZADO: logo + nombre + subtítulo -->
+  <header class="encabezado">
+    <div class="encabezado__contenido">
+      <div class="logo" aria-label="Logo institucional">LOGO</div>
+      <div>
+        <h1>[Nombre de la institución]</h1>
+        <p>El Periódico Estudiantil</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVEGACIÓN: enlaces a las secciones -->
+  <nav class="menu" aria-label="Navegación principal">
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+      <li><a href="#articulos">Artículos</a></li>
+      <li><a href="#suscribirse">Suscribirse</a></li>
+    </ul>
+  </nav>
+
+  <main class="contenedor">
+
+    <section id="inicio" class="bienvenida">
+      <h2>Bienvenidos al Periódico Estudiantil</h2>
+      <p>Enterate de las últimas noticias y eventos de nuestra escuela.</p>
+    </section>
+
+    <section id="sobre-nosotros" class="seccion">
+      <h2>Sobre Nosotros</h2>
+      <div class="sobre-nosotros">
+        <div class="texto">
+          <p>Nuestra institución educativa es un ambiente de excelencia académica y formación integral.</p>
+          <p><strong>Misión:</strong> formar ciudadanos íntegros, críticos y comprometidos.</p>
+          <p><strong>Visión:</strong> ser una institución líder en educación e innovación.</p>
+        </div>
+        <div class="estadisticas">
+          <div class="dato"><strong>50+</strong><span>Años de historia</span></div>
+          <div class="dato"><strong>1000+</strong><span>Estudiantes</span></div>
+          <div class="dato"><strong>80+</strong><span>Docentes</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="publicar" class="seccion">
+      <h2>Publicar Nuevo Artículo</h2>
+      <form id="form-articulo" novalidate>
+        <div class="campo">
+          <label for="titulo">Título del Artículo *</label>
+          <input type="text" id="titulo" name="titulo" placeholder="Ej: Inauguración de la biblioteca" required>
+        </div>
+        <div class="campo">
+          <label for="imagen">URL de la Imagen (Banner) *</label>
+          <input type="url" id="imagen" name="imagen" placeholder="https://ejemplo.com/imagen.jpg" required>
+        </div>
+        <div class="campo">
+          <label for="contenido">Contenido del Artículo *</label>
+          <textarea id="contenido" name="contenido" rows="5" placeholder="Escribe el contenido completo del artículo aquí..." required></textarea>
+        </div>
+        <button type="submit" class="btn">Publicar Artículo</button>
+        <p id="mensaje-articulo" class="mensaje" role="status"></p>
+      </form>
+    </section>
+
+    <section id="articulos" class="seccion">
+      <h2>Artículos Publicados</h2>
+      <!-- Aquí tu JavaScript dibujará las tarjetas -->
+      <div id="articulos-grid" class="grid-articulos"></div>
+    </section>
+
+    <section id="suscribirse" class="seccion">
+      <h2>Suscríbete a Nuestro Boletín</h2>
+      <p>Recibe notificaciones por email cada vez que publiquemos un nuevo artículo.</p>
+      <form id="form-suscripcion" novalidate>
+        <div class="campo">
+          <label for="suscriptor-nombre">Nombre Completo *</label>
+          <input type="text" id="suscriptor-nombre" name="nombre" required>
+        </div>
+        <div class="campo">
+          <label for="suscriptor-correo">Correo Electrónico *</label>
+          <input type="email" id="suscriptor-correo" name="correo" required>
+        </div>
+        <button type="submit" class="btn">Suscribirse</button>
+        <p id="mensaje-suscripcion" class="mensaje" role="status"></p>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="pie">
+    <p>&copy; 2026 Periódico Estudiantil. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- MODAL: lectura completa del artículo (oculto por defecto) -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <article class="modal__contenido" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+      <button id="modal-cerrar" class="modal__cerrar" aria-label="Cerrar">&times;</button>
+      <img id="modal-imagen" src="" alt="">
+      <div class="modal__cuerpo">
+        <h3 id="modal-titulo"></h3>
+        <p class="card__meta"><span id="modal-autor"></span> · <span id="modal-fecha"></span></p>
+        <div id="modal-contenido"></div>
+      </div>
+    </article>
+  </div>
+
+  <!-- 1) Librerías externas: Firebase (base de datos) y EmailJS (correos) -->
+  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
+
+  <!-- 2) Archivos JS del profesor (NO modificar). El ORDEN importa -->
+  <script src="js/articulos.js"></script>
+  <script src="js/suscriptores.js"></script>
+  <script src="js/email.js"></script>
+  <script src="js/modal.js"></script>
+
+  <!-- 3) Tu código de conexión (Paso 6) -->
+  <script>
+    // ===================================================================
+    //  SOLUCIÓN DE REFERENCIA (solo docente): código de conexión del estudiante.
+    //  Usa las funciones de js/articulos.js, suscriptores.js, email.js y modal.js
+    // ===================================================================
+
+    const grid = document.getElementById("articulos-grid");
+    const formArticulo = document.getElementById("form-articulo");
+    const formSuscripcion = document.getElementById("form-suscripcion");
+    const mensajeArticulo = document.getElementById("mensaje-articulo");
+    const mensajeSuscripcion = document.getElementById("mensaje-suscripcion");
+    const modal = document.getElementById("modal");
+
+    // Escribe un mensaje para el usuario. tipo: "ok" o "error"
+    function mostrarMensaje(elemento, texto, tipo) {
+      elemento.textContent = texto;
+      elemento.className = "mensaje " + tipo;
+    }
+
+    // Escribe un aviso dentro de la zona de artículos ("Cargando...", "Aún no hay...")
+    function mostrarAviso(texto) {
+      grid.innerHTML = '<p class="aviso">' + escaparHTML(texto) + "</p>";
+    }
+
+    // 1. Dibujar UNA tarjeta a partir de un artículo
+    function crearTarjeta(articulo) {
+      const tarjeta = document.createElement("article");
+      tarjeta.className = "card";
+      tarjeta.innerHTML = `
+        <img class="card__img" src="${escaparHTML(articulo.imagen)}" alt="${escaparHTML(articulo.titulo)}">
+        <div class="card__cuerpo">
+          <h3>${escaparHTML(articulo.titulo)}</h3>
+          <p class="card__meta">${escaparHTML(articulo.autor)} · ${escaparHTML(articulo.fecha)}</p>
+          <p class="card__resumen">${escaparHTML(articulo.contenido)}</p>
+        </div>`;
+
+      // TODO 1: abrir el modal con los datos de este artículo
+      tarjeta.addEventListener("click", () => {
+        abrirModal(articulo);
+      });
+      return tarjeta;
+    }
+
+    // 2. Dibujar TODAS las tarjetas
+    function mostrarArticulos(lista) {
+      grid.innerHTML = "";
+      if (lista.length === 0) {
+        mostrarAviso("Aún no hay artículos publicados.");
+        return;
+      }
+      // TODO 2: una tarjeta por cada artículo
+      lista.forEach((articulo) => {
+        grid.appendChild(crearTarjeta(articulo));
+      });
+    }
+
+    // 3. Cargar los artículos desde Firebase (al abrir la página y después de publicar)
+    async function cargarArticulos() {
+      mostrarAviso("Cargando artículos...");
+      try {
+        const articulos = await obtenerArticulos();
+        // TODO 3: mostrar los artículos
+        mostrarArticulos(articulos);
+      } catch (error) {
+        mostrarAviso("No se pudieron cargar los artículos: " + error.message);
+      }
+    }
+    cargarArticulos();
+
+    // 4. Publicar un artículo
+    formArticulo.addEventListener("submit", async (evento) => {
+      evento.preventDefault();
+      const titulo = document.getElementById("titulo").value.trim();
+      const imagen = document.getElementById("imagen").value.trim();
+      const contenido = document.getElementById("contenido").value.trim();
+
+      // TODO 4: validar los datos
+      if (titulo === "" || imagen === "" || contenido === "") {
+        mostrarMensaje(mensajeArticulo, "Completa todos los campos.", "error");
+        return;
+      }
+      if (!imagen.startsWith("http://") && !imagen.startsWith("https://")) {
+        mostrarMensaje(mensajeArticulo, "La imagen debe ser una URL que empiece por http:// o https://", "error");
+        return;
+      }
+
+      const boton = formArticulo.querySelector("button[type='submit']");
+      boton.disabled = true; // evita publicar dos veces si se pulsa de nuevo
+      mostrarMensaje(mensajeArticulo, "Publicando...", "ok");
+
+      try {
+        const articulo = await guardarArticulo({ titulo: titulo, imagen: imagen, contenido: contenido });
+
+        // TODO 5: avisar a los suscriptores (si falla, el artículo YA quedó guardado)
+        let detalleCorreos = "";
+        try {
+          const resultado = await notificarSuscriptores(articulo);
+          detalleCorreos = " Correos enviados: " + resultado.enviados + " de " + resultado.total + ".";
+        } catch (errorCorreo) {
+          detalleCorreos = " No se pudo avisar a los suscriptores: " + errorCorreo.message;
+        }
+
+        // TODO 6: confirmar, limpiar el formulario y volver a cargar los artículos
+        mostrarMensaje(mensajeArticulo, "¡Artículo publicado!" + detalleCorreos, "ok");
+        formArticulo.reset();
+        cargarArticulos();
+      } catch (error) {
+        // TODO 7: mostrar el error
+        mostrarMensaje(mensajeArticulo, error.message, "error");
+      } finally {
+        boton.disabled = false;
+      }
+    });
+
+    // 5. Suscribirse al boletín
+    formSuscripcion.addEventListener("submit", async (evento) => {
+      evento.preventDefault();
+      const nombre = document.getElementById("suscriptor-nombre").value.trim();
+      const correo = document.getElementById("suscriptor-correo").value.trim();
+
+      // TODO 8: validar nombre y correo
+      if (nombre === "") {
+        mostrarMensaje(mensajeSuscripcion, "Escribe tu nombre completo.", "error");
+        return;
+      }
+      if (!correo.includes("@") || !correo.includes(".")) {
+        mostrarMensaje(mensajeSuscripcion, "Escribe un correo válido, por ejemplo ana@correo.com", "error");
+        return;
+      }
+
+      try {
+        await guardarSuscriptor({ nombre: nombre, correo: correo });
+        // TODO 9: confirmar y limpiar el formulario
+        mostrarMensaje(mensajeSuscripcion, "¡Gracias, " + nombre + "! Quedaste suscrito/a al boletín.", "ok");
+        formSuscripcion.reset();
+      } catch (error) {
+        // TODO 10: mostrar el error (por ejemplo: "Este correo ya está suscrito.")
+        mostrarMensaje(mensajeSuscripcion, error.message, "error");
+      }
+    });
+
+    // 6. Cerrar el modal: botón X, clic fuera de la ventana y tecla Escape
+    // TODO 11
+    document.getElementById("modal-cerrar").addEventListener("click", cerrarModal);
+    modal.addEventListener("click", (evento) => {
+      if (evento.target === modal) {
+        cerrarModal();
+      }
+    });
+    document.addEventListener("keydown", (evento) => {
+      if (evento.key === "Escape") {
+        cerrarModal();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+/* ============ 1. VARIABLES Y REINICIO ============ */
+:root {
+  --color-primario: #2c3e50;    /* ← cambia estos colores por los de tu institución */
+  --color-secundario: #3498db;
+  --color-fondo: #f1f3f5;
+  --color-tarjeta: #ffffff;
+  --color-texto: #2d3436;
+  --radio: 12px;
+  --espacio: 1rem;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--color-fondo); color: var(--color-texto); line-height: 1.6; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+
+/* ============ 2. ENCABEZADO (Flexbox) ============ */
+.encabezado { background: var(--color-primario); color: #fff; padding: var(--espacio); }
+.encabezado__contenido { display: flex; align-items: center; gap: var(--espacio); max-width: 960px; margin: 0 auto; }
+.logo {
+  width: 56px; height: 56px; flex-shrink: 0;
+  border-radius: var(--radio); background: var(--color-secundario);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem; font-weight: bold;
+}
+.encabezado h1 { font-size: 1.2rem; }
+.encabezado p { font-size: .85rem; opacity: .8; }
+
+/* ============ 3. BARRA DE NAVEGACIÓN ============ */
+.menu { background: var(--color-secundario); position: sticky; top: 0; z-index: 5; }
+.menu ul { display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem; padding: .4rem; }
+.menu a { display: block; color: #fff; text-decoration: none; font-weight: 600; font-size: .9rem; padding: .5rem .9rem; border-radius: 8px; }
+.menu a:hover { background: rgba(255, 255, 255, .2); }
+
+/* ============ 4. CONTENEDOR Y SECCIONES ============ */
+.contenedor { max-width: 960px; margin: 0 auto; padding: var(--espacio); display: grid; gap: var(--espacio); }
+.bienvenida { background: var(--color-primario); color: #fff; text-align: center; padding: 1.5rem; border-radius: var(--radio); }
+.bienvenida h2 { border-bottom: 2px solid var(--color-secundario); padding-bottom: .5rem; margin-bottom: .6rem; }
+.seccion {
+  background: var(--color-tarjeta); border-left: 4px solid var(--color-secundario);
+  border-radius: var(--radio); padding: 1.2rem; scroll-margin-top: 70px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+}
+.seccion h2 { color: var(--color-primario); border-bottom: 2px solid var(--color-secundario); padding-bottom: .4rem; margin-bottom: 1rem; font-size: 1.2rem; }
+
+/* ============ 5. SOBRE NOSOTROS ============ */
+.sobre-nosotros { display: grid; gap: var(--espacio); }
+.sobre-nosotros p + p { margin-top: .6rem; }
+.estadisticas { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+.dato { background: var(--color-primario); color: #fff; border-radius: var(--radio); padding: .8rem; text-align: center; }
+.dato strong { display: block; font-size: 1.4rem; color: var(--color-secundario); }
+.dato span { font-size: .75rem; }
+
+/* ============ 6. FORMULARIOS ============ */
+.campo { display: flex; flex-direction: column; gap: .3rem; margin-bottom: .9rem; }
+.campo label { font-weight: 600; font-size: .9rem; }
+.campo input, .campo textarea { padding: .6rem .8rem; border: 1px solid #ccd3d9; border-radius: 8px; font: inherit; }
+.campo input:focus, .campo textarea:focus { outline: 2px solid var(--color-secundario); border-color: transparent; }
+.btn { background: var(--color-secundario); color: #fff; border: none; border-radius: 8px; padding: .65rem 1.3rem; font: inherit; font-weight: 600; cursor: pointer; }
+.btn:hover { filter: brightness(.9); }
+
+/* Mensajes para el usuario (los escribe tu JavaScript) */
+.mensaje { margin-top: .6rem; font-size: .9rem; min-height: 1.2rem; }
+.mensaje.ok { color: #1a7f4b; }
+.mensaje.error { color: #c0392b; }
+
+/* ============ 7. TARJETAS DE ARTÍCULOS (Grid) ============ */
+.grid-articulos { display: grid; grid-template-columns: 1fr; gap: var(--espacio); }
+.card {
+  background: var(--color-tarjeta); border: 1px solid #dde3ea; border-radius: var(--radio);
+  overflow: hidden; cursor: pointer; transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0, 0, 0, .15); }
+.card__img { width: 100%; height: 130px; object-fit: cover; }
+.card__cuerpo { padding: .8rem; }
+.card__cuerpo h3 { font-size: 1rem; color: var(--color-primario); }
+.card__meta { font-size: .75rem; color: var(--color-secundario); margin: .2rem 0 .4rem; }
+.card__resumen {
+  font-size: .85rem; overflow: hidden;
+  display: -webkit-box; -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;                 /* versión estándar: el editor la pide por compatibilidad */
+}
+
+/* ============ 8. MODAL DE LECTURA ============ */
+.modal {
+  position: fixed; inset: 0; z-index: 20;
+  background: rgba(0, 0, 0, .85);
+  display: none;                     /* oculto por defecto */
+  align-items: flex-start; justify-content: center;
+  padding: 1rem; overflow-y: auto;
+}
+.modal.abierto { display: flex; }    /* JavaScript añade/quita esta clase */
+.modal__contenido { position: relative; background: #fff; width: 100%; max-width: 640px; border-radius: var(--radio); overflow: hidden; margin: 1rem 0; }
+.modal__contenido img { width: 100%; max-height: 300px; object-fit: cover; }
+.modal__cuerpo { padding: 1.2rem; }
+.modal__cerrar {
+  position: absolute; top: .6rem; right: .6rem; width: 34px; height: 34px;
+  border: none; border-radius: 50%; background: var(--color-secundario);
+  color: #fff; font-size: 1.2rem; cursor: pointer;
+}
+
+/* ============ 9. PIE DE PÁGINA ============ */
+.pie { background: var(--color-primario); color: #fff; text-align: center; padding: 1rem; font-size: .85rem; margin-top: var(--espacio); }
+
+/* Avisos dentro de la zona de artículos ("Cargando...", "Aún no hay artículos...") */
+.grid-articulos .aviso { grid-column: 1 / -1; text-align: center; color: #667; padding: 1rem; }
+
+/* ============ 10. RESPONSIVE (mobile-first) ============ */
+/* Lo anterior ya es la versión móvil. Aquí ampliamos para pantallas mayores. */
+
+@media (min-width: 600px) {
+  .encabezado h1 { font-size: 1.5rem; }
+  .grid-articulos { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .sobre-nosotros { grid-template-columns: 2fr 1fr; }
+  .estadisticas { grid-template-columns: 1fr; }
+  .grid-articulos { grid-template-columns: repeat(3, 1fr); }
+}
