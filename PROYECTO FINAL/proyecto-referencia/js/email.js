@@ -35,9 +35,9 @@
      {{to_name}} {{periodico}} {{titulo}} {{autor}} {{resumen}} {{enlace}}
    y en el campo "To Email" de la plantilla:  {{to_email}}
    --------------------------------------------------------------------- */
-const EMAILJS_PUBLIC_KEY = "TU_PUBLIC_KEY";
-const EMAILJS_SERVICE_ID = "TU_SERVICE_ID";
-const EMAILJS_TEMPLATE_ID = "TU_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY = "m58Wf6Ukz18UlEtFX";
+const EMAILJS_SERVICE_ID = "service_pi547m8";
+const EMAILJS_TEMPLATE_ID = "template_weu0sp1";
 const NOMBRE_PERIODICO = "El Periódico Estudiantil";
 
 const PAUSA_ENTRE_CORREOS_MS = 400; // evita enviar demasiado rápido
